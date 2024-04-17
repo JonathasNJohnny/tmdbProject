@@ -1,7 +1,7 @@
 import { styled, createGlobalStyle } from 'styled-components';
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Button1 from "../components/Button1";
@@ -15,6 +15,12 @@ export const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState("");
+
+    useEffect(() => {
+        if (username && password) {
+            handleLogin();
+        }
+    }, [username, password]);
 
     const handleLogin = async () => {
         try {
