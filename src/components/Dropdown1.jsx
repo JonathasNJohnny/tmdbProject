@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
-import styled from 'styled-components';
+import { styled, createGlobalStyle } from 'styled-components';
 
 const Dropdown1 = ({ placeholder, items = [], onTypeChange }) => {
   if (items.length === 0) {
     items = [['vazio', 0], ['vazio', 1], ['vazio', 2]];
   }
-
   const [isOpen, setIsOpen] = useState(false);
+  const [actualPlaceholder, setActualPlaceholder] = useState(placeholder)
   const dropdownRef = useRef(null);
 
   const toggleDropdown = () => {
@@ -15,6 +15,7 @@ const Dropdown1 = ({ placeholder, items = [], onTypeChange }) => {
 
   const handleItemClick = (item) => {
     if (onTypeChange) {
+      setActualPlaceholder(item[0])
       onTypeChange(item[1])
     }
     setIsOpen(false);
@@ -36,11 +37,13 @@ const Dropdown1 = ({ placeholder, items = [], onTypeChange }) => {
 
   return (
     <DropdownContainer ref={dropdownRef}>
-      <DropdownButton onClick={toggleDropdown}>{placeholder}</DropdownButton>
-      <DropdownContent $isOpen={isOpen}>
-        {items.map((item, index) => (
-          <DropdownLink key={index} href="#" onClick={() => handleItemClick(item)}>{item[0]}</DropdownLink>
-        ))}
+      <DropdownButton onClick={toggleDropdown} >{actualPlaceholder}</DropdownButton>
+      <DropdownContent $isOpen={isOpen} className={"bg-dark"}>
+        <DropdownItemList>
+          {items.map((item, index) => (
+            <DropdownItem key={index} onClick={() => handleItemClick(item)}>{item[0]}</DropdownItem>
+          ))}
+        </DropdownItemList>
       </DropdownContent>
     </DropdownContainer>
   );
@@ -51,11 +54,11 @@ export default Dropdown1;
 const DropdownContainer = styled.div`
   position: relative;
   display: inline-block;
-  margin: 20px 20px 20px 0;
+  margin: 20px 20px 0px 0;
 `;
 
 const DropdownButton = styled.button`
-  background-color: #3a3a3b;
+  background-color: #343a40;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -77,25 +80,40 @@ const DropdownButton = styled.button`
   &:focus {
     outline: none;
   }
+
+  &:hover {
+    background-color: #3b4147;
+  }
 `;
 
 const DropdownContent = styled.div`
   display: ${props => props.$isOpen ? 'block' : 'none'};
-  background-color: #383838;
   position: absolute;
-  min-width: 130px;
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
   border-radius: 5px;
 `;
 
-const DropdownLink = styled.a`
+const DropdownItemList = styled.div`
+  padding: 4px 0;
+`;
+
+const DropdownItem = styled.div`
   color: #f0ffff94;
   padding: 12px 16px;
-  text-decoration: none;
-  display: block;
+  cursor: pointer;
 
   &:hover {
-    background-color: #121212;
+    background-color: #3c444d;
+    color: #f0ffff94;
+  }
+`;
+
+const GlobalStyle = createGlobalStyle`
+  body.dropdown-open {
+    overflow: hidden;
   }
 `;

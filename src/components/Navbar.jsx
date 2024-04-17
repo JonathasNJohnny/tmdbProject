@@ -1,14 +1,19 @@
 import React from 'react';
 import { Dropdown } from 'react-bootstrap';
 import styled from 'styled-components';
+import { Icon } from '@iconify/react/dist/iconify.js';
+import { useNavigate } from 'react-router-dom';
 
-const Navbar = () => {
+export const Navbar = ({color1, color2, token}) => {
+  const navigate = useNavigate();
   const menuItems = [
-    { label: 'Home' },
-    { label: 'About' },
-    { label: 'Services' },
-    { label: 'Contact' }
+    { icon: 'mdi:home', label: 'Home', color: color1, route: '/'},
+    { icon: 'mdi:account', label: 'Profile', color: color2, route: '/profile'}
   ];
+
+  const handleNavigate = async (route) => {
+    navigate(route, { state: { token } })
+  }
 
   return (
     <Nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -23,7 +28,8 @@ const Navbar = () => {
             </Dropdown.Toggle>
             <Dropdown.Menu>
               {menuItems.map((item, index) => (
-                <Dropdown.Item key={index}>
+                <Dropdown.Item key={index} onClick={() => handleNavigate(item.route)}>
+                  <Icon icon={item.icon} style={{margin: '0 5px 1 0px'}}/>
                   {item.label}
                 </Dropdown.Item>
               ))}
@@ -31,7 +37,8 @@ const Navbar = () => {
           </CustomDropdown>
           <Menu>
             {menuItems.map((item, index) => (
-              <MenuItem key={index}>
+              <MenuItem key={index} style={{color: item.color}} onClick={() => handleNavigate(item.route)}>
+                <Icon icon={item.icon} style={{margin: '0 5px 1 0px'}}/>
                 {item.label}
               </MenuItem>
             ))}
@@ -70,7 +77,7 @@ const Menu = styled.div`
   margin-left: auto;
   margin-right: 15px;
   @media (max-width: 767px) {
-    display: none; /* Oculta o menu em telas pequenas */
+    display: none;
   }
 `;
 
@@ -78,9 +85,10 @@ const MenuItem = styled.a`
   color: white;
   text-decoration: none;
   margin-left: 20px;
+  cursor: pointer;
 
   &:hover {
-    color: lightgray;
+    color: #e7e7e7;
     text-decoration: none;
   }
 `;
@@ -115,6 +123,7 @@ const CustomDropdown = styled(Dropdown)`
 
   .dropdown-item {
     color: white;
+    padding: 10px 25px 10px 25px;
   }
 
   .dropdown-item:hover {
