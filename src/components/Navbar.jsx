@@ -81,6 +81,7 @@ const MenuItem = styled.a`
 
   &:hover {
     color: lightgray;
+    text-decoration: none;
   }
 `;
 
@@ -101,7 +102,7 @@ const CustomDropdown = styled(Dropdown)`
       display: none;
     }
 
-    media (max-width: 767px) {
+    @media (max-width: 767px) {
       .dropdown-toggle {
         display: block;
       }

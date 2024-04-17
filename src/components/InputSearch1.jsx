@@ -13,7 +13,10 @@ export const InputSearch1 = ({type, placeholder, onChange}) => {
 export default InputSearch1;
 
 export const Input = styled.input`
+    margin-right: 20px;
     justify-content: center;
+    height: fit-content;
+    width: fit-content;
     box-sizing: border-box;
     color: #f0ffffde;
     box-shadow: 0px 10px 40px #00000056;

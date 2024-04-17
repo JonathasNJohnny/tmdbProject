@@ -37,7 +37,7 @@ const Dropdown1 = ({ placeholder, items = [], onTypeChange }) => {
   return (
     <DropdownContainer ref={dropdownRef}>
       <DropdownButton onClick={toggleDropdown}>{placeholder}</DropdownButton>
-      <DropdownContent isOpen={isOpen}>
+      <DropdownContent $isOpen={isOpen}>
         {items.map((item, index) => (
           <DropdownLink key={index} href="#" onClick={() => handleItemClick(item)}>{item[0]}</DropdownLink>
         ))}
@@ -51,7 +51,7 @@ export default Dropdown1;
 const DropdownContainer = styled.div`
   position: relative;
   display: inline-block;
-  margin-left: 20px;
+  margin: 20px 20px 20px 0;
 `;
 
 const DropdownButton = styled.button`
@@ -80,8 +80,8 @@ const DropdownButton = styled.button`
 `;
 
 const DropdownContent = styled.div`
-  display: ${props => props.isOpen ? 'block' : 'none'};
-  background-color: #343a40;
+  display: ${props => props.$isOpen ? 'block' : 'none'};
+  background-color: #383838;
   position: absolute;
   min-width: 130px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
