@@ -82,7 +82,7 @@ export const DataBox = ({ contentId = '1011985', type = 'movie', showBoxState = 
                                         <Rating>{content.rating}/10</Rating>
                                         <Description>{content.description}</Description>
                                         <RatingForm>
-                                            <label htmlFor="rating">Avalie este filme:</label>
+                                            <label htmlFor="rating">Rate this content:</label>
                                             <StyledSelect id="rating" value={rating} onChange={handleRatingChange}>
                                                 <option value={0}>0</option>
                                                 <option value={1}>1</option>
@@ -91,7 +91,7 @@ export const DataBox = ({ contentId = '1011985', type = 'movie', showBoxState = 
                                                 <option value={4}>4</option>
                                                 <option value={5}>5</option>
                                             </StyledSelect>
-                                            <StyledButton onClick={handleSubmitRating}>Enviar</StyledButton>
+                                            <StyledButton onClick={handleSubmitRating}>Submit</StyledButton>
                                         </RatingForm>
                                     </DescriptionContainer>
                                 </ContentContainer>
