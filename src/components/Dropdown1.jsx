@@ -66,7 +66,8 @@ const DropdownButton = styled.button`
   box-sizing: border-box;
   color: #f0ffff94;
   box-shadow: 0px 10px 40px #00000056;
-  padding: 12px 15px; /* Reduza o preenchimento para se ajustar melhor em telas menores */
+  min-width: 130px;
+  padding: 12px 45px 12px 15px;
   font-size: 12pt;
   border-radius: 15px;
   outline: none;
@@ -75,11 +76,6 @@ const DropdownButton = styled.button`
   background-repeat: no-repeat;
   background-position: right 11px top 63%;
   background-size: 15px;
-
-  @media (max-width: 768px) {
-    min-width: auto;
-    padding: 10px 30px;
-  }
 
   &:focus {
     outline: none;
@@ -90,7 +86,6 @@ const DropdownButton = styled.button`
   }
 `;
 
-
 const DropdownContent = styled.div`
   display: ${props => props.$isOpen ? 'block' : 'none'};
   position: absolute;
@@ -98,7 +93,7 @@ const DropdownContent = styled.div`
   max-height: 200px;
   overflow-y: auto;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 999;
+  z-index: 1;
   border-radius: 5px;
 `;
 

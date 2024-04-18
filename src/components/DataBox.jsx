@@ -1,10 +1,9 @@
+import React, { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import React, { useState, useEffect } from 'react';
 import { styled } from 'styled-components';
 import axios from 'axios';
 import { Icon } from '@iconify/react/dist/iconify.js';
-import Dropdown1 from './Dropdown1';
 
 export const DataBox = ({ contentId = '1011985', type = 'movie', showBoxState = false, onClose }) => {
     const [content, setContent] = useState(null);
@@ -18,7 +17,7 @@ export const DataBox = ({ contentId = '1011985', type = 'movie', showBoxState = 
         const fetchContent = async () => {
             if (showBox) {
                 try {
-                    const response = await axios.get(`https://api.themoviedb.org/3/${type}/${contentId}?api_key=72685f398b32e9d77e422b1b37d21421`);
+                    const response = await axios.get(`https://api.themoviedb.org/3/${type}/${contentId}?api_key=${API_KEY}`);
                     const contentData = {
                         img: `https://image.tmdb.org/t/p/w500${response.data.poster_path}`,
                         title: response.data.title || response.data.name,
@@ -40,8 +39,8 @@ export const DataBox = ({ contentId = '1011985', type = 'movie', showBoxState = 
         onClose(false);
     };
 
-    const handleRatingChange = (value) => {
-        setRating(value);
+    const handleRatingChange = (event) => {
+        setRating(Number(event.target.value));
     };
 
     const handleSubmitRating = async () => {
@@ -59,7 +58,7 @@ export const DataBox = ({ contentId = '1011985', type = 'movie', showBoxState = 
                 }
             );
             console.log('rated!');
-            toast.done('')
+            toast.success('Rated Successfully')
             handleCloseBox()
         } catch (error) {
             console.error('rating : error:', error);
@@ -82,19 +81,18 @@ export const DataBox = ({ contentId = '1011985', type = 'movie', showBoxState = 
                                         <Title>{content.title}</Title>
                                         <Rating>{content.rating}/10</Rating>
                                         <Description>{content.description}</Description>
-                                        <Dropdown1
-                                            placeholder="Rate this content: "
-                                            items={[
-                                                [0, 0],
-                                                [1, 1],
-                                                [2, 2],
-                                                [3, 3],
-                                                [4, 4],
-                                                [5, 5]
-                                            ]}
-                                            onTypeChange={handleRatingChange}
-                                        />
-                                        <StyledButton onClick={handleSubmitRating} style={{marginTop: '20px'}}>Send</StyledButton>
+                                        <RatingForm>
+                                            <label htmlFor="rating">Avalie este filme:</label>
+                                            <StyledSelect id="rating" value={rating} onChange={handleRatingChange}>
+                                                <option value={0}>0</option>
+                                                <option value={1}>1</option>
+                                                <option value={2}>2</option>
+                                                <option value={3}>3</option>
+                                                <option value={4}>4</option>
+                                                <option value={5}>5</option>
+                                            </StyledSelect>
+                                            <StyledButton onClick={handleSubmitRating}>Enviar</StyledButton>
+                                        </RatingForm>
                                     </DescriptionContainer>
                                 </ContentContainer>
                             </>
@@ -117,13 +115,12 @@ const Box = styled.div`
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     color: #f0ffff;
-    max-width: 80%; /* Defina um tamanho máximo para a largura da caixa */
+
     @media (max-width: 768px) {
-        max-height: 50%; /* Defina um tamanho máximo para a altura da caixa em telas menores */
-        overflow-y: auto; /* Ative a barra de rolagem vertical se o conteúdo exceder a altura máxima */
+        padding-top: 55px;
+        padding-bottom: 55px;
     }
 `;
-
 
 const ContentContainer = styled.div`
     display: flex;
@@ -148,21 +145,24 @@ const Rating = styled.p`
 `;
 
 const DescriptionContainer = styled.div`
-    @media (max-width: 768px) {
-        max-height: 345px;
-        overflow-y: auto;
-        overflow-x: hidden;
-    }
+    overflow-y: auto; /* Adiciona rolagem vertical */
+    max-height: 300px; /* Define uma altura máxima para a descrição */
 `;
 
 const Description = styled.p`
     font-size: 16px;
-    margin-bottom: 5px;
-    @media (max-width: 768px) {
-        max-height: 300px;
-        overflow-y: auto;
-        overflow-x: hidden;
-        font-size: 15px;
+`;
+
+const RatingForm = styled.div`
+    margin-top: 20px;
+
+    label {
+        margin-right: 10px;
+    }
+
+    select {
+        margin-right: 10px;
+        width: 80px;
     }
 `;
 
@@ -178,7 +178,7 @@ const CloseButton = styled.button`
 
 const DataNet = styled.div`
     position: fixed;
-    background-color: #00000089;
+    background-color: #00000065;
     top: 0;
     left: 0;
     width: 100vw;
@@ -186,21 +186,14 @@ const DataNet = styled.div`
 `;
 
 const StyledButton = styled.button`
-    padding-top: 13px;
-    padding-bottom: 13px;
-    background-color: #494f55;
-    color: #f0ffff94;
-    box-shadow: 0px 10px 40px #00000056;
-    font-size: 12pt;
-    border-radius: 15px;
-    border: none;
+    margin-top: 20px;
+    background-color: #4b5258;
+
+`
+const StyledSelect = styled.select`
+    background-color: #4b5258;
     outline: none;
+    border-radius: 5%;
+    padding: 5px;
 
-    &:focus {
-      outline: none;
-    }
-
-    &:hover {
-      background-color: #3b4147;
-    }
 `

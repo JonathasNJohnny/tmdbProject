@@ -64,6 +64,12 @@ const Logo = styled.a`
   text-decoration: none;
   font-weight: bold;
   font-size: 1.5rem;
+
+  &:hover {
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+  }
 `;
 
 const Menu = styled.div`
