@@ -7,6 +7,7 @@ import InputSearch1 from "../components/InputSearch1"
 import Dropdown1 from "../components/Dropdown1";
 import TmdbContent from "../components/TmdbContent";
 import Footer from "../components/Footer";
+import DataBox from "../components/DataBox";
 
 const API_KEY = '72685f398b32e9d77e422b1b37d21421';
 const activatedColor = '#c0c0c0'
@@ -19,15 +20,11 @@ export const Homepage = () => {
     const [page, setPage] = useState(1);
     const [search, setSearch] = useState('');
     const [token, setToken] = useState('');
+    const [showBox, setShowBox] = useState(false);
+    const [contentId, setContentId] = useState('1011985')
     const location = useLocation();
 
     useEffect(() => {
-        if (!location.state || !location.state.token) {
-            navigate('/login');
-            return;
-        }
-        setToken(location.state.token)
-
         const fetchMovies = async () => {
             console.log(search)
             try {
@@ -41,6 +38,15 @@ export const Homepage = () => {
     
         fetchMovies();
         }, [which, search]);
+
+    const handleContentClick = (set) => {
+        setContentId(set)
+        setShowBox(true);
+    }
+
+    const handleCloseBox = () => {
+        setShowBox(false);
+    }
 
     const handleScroll = () => {
         window.scrollTo({
@@ -91,10 +97,11 @@ export const Homepage = () => {
                         <Dropdown1 placeholder={'Genre'} items={allGenres} onTypeChange={handleGenreChange}/>
                     </Filters>
                     <Content>
-                        <TmdbContent media_type={which} genre={genre} page={page} search={search}/>
+                        <TmdbContent media_type={which} genre={genre} page={page} search={search} onClick={handleContentClick}/>
                     </Content>
                     <Footer onSaveData={handlePage} page={page}/>
                 </HomepageBody>
+                <DataBox showBoxState={showBox} onClose={handleCloseBox} contentId={contentId} type={which} token={token}/>
             </div>
     )
 }

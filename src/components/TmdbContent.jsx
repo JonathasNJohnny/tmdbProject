@@ -7,10 +7,10 @@ import styled from 'styled-components';
 const API_KEY = '72685f398b32e9d77e422b1b37d21421';
 let API_URL = ''
 
-export const TmdbContent = ({ media_type = 'movie', genre = '', search = '', page = '1' }) => {
+export const TmdbContent = ({ media_type = 'movie', genre = '', search = '', page = '1', onClick }) => {
     const [movies, setMovies] = useState([]);
     const handleClick = (movieId) => {
-        console.log(movieId);
+        onClick(movieId)
     };
 
     useEffect(() => {
@@ -23,9 +23,7 @@ export const TmdbContent = ({ media_type = 'movie', genre = '', search = '', pag
                 }
 
                 const response = await axios.get(API_URL);
-                // Verifica se a lista de filmes está vazia
                 if (response.data.results.length === 0 && search) {
-                    // Se a lista de filmes estiver vazia e uma pesquisa estiver sendo feita, chama a API com os parâmetros padrão
                     const defaultUrl = `https://api.themoviedb.org/3/discover/${media_type}?api_key=${API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${page}&with_genres=${genre}`;
                     const defaultResponse = await axios.get(defaultUrl);
                     setMovies(defaultResponse.data.results);

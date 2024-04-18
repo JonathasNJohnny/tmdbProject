@@ -2,18 +2,12 @@ import React from 'react';
 import { Dropdown } from 'react-bootstrap';
 import styled from 'styled-components';
 import { Icon } from '@iconify/react/dist/iconify.js';
-import { useNavigate } from 'react-router-dom';
 
 export const Navbar = ({color1, color2, token}) => {
-  const navigate = useNavigate();
   const menuItems = [
-    { icon: 'mdi:home', label: 'Home', color: color1, route: '/'},
-    { icon: 'mdi:account', label: 'Profile', color: color2, route: '/profile'}
+    { icon: 'mdi:home', label: 'Home', color: color1},
+    { icon: 'mdi:account', label: 'Guest_User', color: color2}
   ];
-
-  const handleNavigate = async (route) => {
-    navigate(route, { state: { token } })
-  }
 
   return (
     <Nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -28,7 +22,7 @@ export const Navbar = ({color1, color2, token}) => {
             </Dropdown.Toggle>
             <Dropdown.Menu>
               {menuItems.map((item, index) => (
-                <Dropdown.Item key={index} onClick={() => handleNavigate(item.route)}>
+                <Dropdown.Item key={index}>
                   <Icon icon={item.icon} style={{margin: '0 5px 1 0px'}}/>
                   {item.label}
                 </Dropdown.Item>
@@ -37,7 +31,7 @@ export const Navbar = ({color1, color2, token}) => {
           </CustomDropdown>
           <Menu>
             {menuItems.map((item, index) => (
-              <MenuItem key={index} style={{color: item.color}} onClick={() => handleNavigate(item.route)}>
+              <MenuItem key={index} style={{color: item.color}}>
                 <Icon icon={item.icon} style={{margin: '0 5px 1 0px'}}/>
                 {item.label}
               </MenuItem>
